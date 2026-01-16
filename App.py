@@ -5,8 +5,13 @@ st.set_page_config(page_title = "Heart Health & Net Zero", layout ="wide")
 
 @st.cache_data
 def load_and_merge():
-    l3 = pd.read_excel("Level_3.xlsx")
+    l3 = pd.read_csv("Level_3.csv")
     lk = pd.read_excel("lookups.xlsx")
+    # Save them as Parquet
+    l3.to_parquet("Level_3.parquet")
+    lk.to_parquet("lookups.parquet")
+    l3 = pd.read_parquet("Level_3.parquet") 
+    lk = pd.read_parquet("lookups.parquet")
     return pd.merge (l3,lk, on= 'small_area')
 df = load_and_merge()
     # 3. Sidebar Filters
